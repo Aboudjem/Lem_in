@@ -6,7 +6,7 @@
 #    By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/04/03 22:59:30 by aboudjem          #+#    #+#              #
-#    Updated: 2017/04/03 23:04:06 by aboudjem         ###   ########.fr        #
+#    Updated: 2017/04/04 06:01:44 by aboudjem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,9 @@ SRC_PATH = src
 OBJ_PATH = obj
 INC_PATH = includes
 
-SRC_NAME = lem-in.c
+SRC_NAME = lem-in.c ft_splitnb.c
 OBJ_NAME = $(SRC_NAME:.c=.o)
-INC_NAME = lem-in.h
+INC_NAME = lemin.h
 
 CPPFLAGS = -I$(INC_PATH)
 LDFLAGS = -Llibft
