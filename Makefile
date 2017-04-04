@@ -16,7 +16,7 @@ SRC_PATH = src
 OBJ_PATH = obj
 INC_PATH = includes
 
-SRC_NAME = lem-in.c ft_splitnb.c
+SRC_NAME = lem-in.c ft_splitnb.c checking.c
 OBJ_NAME = $(SRC_NAME:.c=.o)
 INC_NAME = lemin.h
 
