@@ -26,11 +26,8 @@ void	print_lst(t_lst *lst)
 
 int		get_rooms(char **line, t_rooms *r, t_lst **lst)
 {
-	ft_printf("[ENTRE]\n");
 	ft_splitnb(*line, r);
-	ft_printf("[splut]\n");
 	*lst = add_rooms(*lst, r->room,r->y,r->x);
-	ft_printf("[add_room]\n");
 	if (*lst)
 		print_lst(*lst);
 	return(1);
@@ -63,6 +60,7 @@ int		main()
 	int index;
 	
 	char *start;
+	char *end;
 	lst = NULL;
 	line = NULL;
 
@@ -84,17 +82,23 @@ int		main()
 		{
 			start = ft_strdup(line);
 			get_rooms(&line, &r, &lst);
-			ft_putstr("coucou");
 			index++;
 		}
 		else if (index == 3 && check_room(line, &index) == 1)
 		{
 			get_rooms(&line, &r, &lst);
 		}
-		else if (index == 4)
-			ft_printf("[Fin ROOM]\n");
-		else
-			ft_putstr("FINISH");	
+		else if (index == 4 && check_room(line, &index) == 1)
+		{
+			end = ft_strdup(line);
+			get_rooms(&line, &r, &lst);
+			index++;
+		}
+		else if (index == 5)
+		{
+			ft_printf("[Start = %s]\n[End = %s]\n");
+			// ft_putstr("FINISH");
+		}
 		ft_printf("[%d]\n", index);
 	}
 }

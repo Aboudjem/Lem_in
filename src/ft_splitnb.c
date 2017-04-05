@@ -15,7 +15,6 @@
 t_lst	*add_rooms(t_lst *lst, char *str, int y, int x)
 {
 	t_lst	*tmp;
-	//ft_printf("STR = %s\n", str);
 
 	tmp = malloc(sizeof(t_lst));
 	if (tmp)
@@ -38,7 +37,7 @@ int		check_room(char *s, int *index)
 	i = 0;
 	if (!s)
 		return (0);
-	if (check_line(s) == 2)
+	if (check_line(s) == 3)
 	{
 		*index += 1;
 		return(0);
