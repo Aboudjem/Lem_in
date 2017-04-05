@@ -22,6 +22,9 @@ typedef struct	s_rooms
 	int		x;
 	char	*room;
 	char	*start;
+	char	*end;
+	int		getstart;
+	int		getend;
 }			t_rooms;
 
 
@@ -48,7 +51,7 @@ int		check_line(char *line);
 int		get_ants(char *line);
 
 int		check_hash(char *line, t_rooms *r, t_lst *lst);
-int		check_room(char *s, int *index);
+int		check_room(char *s);
 int		len_str(char *s);
 int		count_space(char *s);
 int		check_nb(char *s);

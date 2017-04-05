@@ -31,17 +31,12 @@ t_lst	*add_rooms(t_lst *lst, char *str, int y, int x)
 }
 
 
-int		check_room(char *s, int *index)
+int		check_room(char *s)
 {
 	int i;
 	i = 0;
 	if (!s)
 		return (0);
-	if (check_line(s) == 3)
-	{
-		*index += 1;
-		return(0);
-	}
 	i = len_str(s);
 	if (i == 0)
 		return (0);

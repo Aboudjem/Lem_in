@@ -24,10 +24,22 @@ void	print_lst(t_lst *lst)
 	}
 }
 
+int		check_exist(t_rooms *r, t_lst *lst)
+{
+	while (lst)
+	{
+		if (ft_strcmp(lst->rooms, r->room) == 0)
+			return(0);
+		lst = lst->next;
+	}
+	return(1);
+}
+
 int		get_rooms(char **line, t_rooms *r, t_lst **lst)
 {
 	ft_splitnb(*line, r);
-	*lst = add_rooms(*lst, r->room,r->y,r->x);
+	if (check_exist(r, *lst) == 1)
+		*lst = add_rooms(*lst, r->room,r->y,r->x);
 	if (*lst)
 		print_lst(*lst);
 	return(1);
@@ -51,6 +63,22 @@ int		check_line(char *line)
 	return (0);
 }
 
+void	check_startend(char **line, t_rooms *r)
+{
+	if (check_line(*line) == 2)
+	{
+		get_next_line(0, line);
+		if (check_room(*line) == 1)
+			r->start = ft_strdup(*line);
+	}
+	else if (check_line(*line) == 3)
+	{
+		get_next_line(0, line);
+		if (check_room(*line) == 1)
+			r->end = ft_strdup(*line);
+	}
+}
+
 int		main()
 {
 	char *line;
@@ -59,8 +87,8 @@ int		main()
 	t_lst *lst;
 	int index;
 	
-	char *start;
-	char *end;
+	// char *start;
+	// char *end;
 	lst = NULL;
 	line = NULL;
 
@@ -73,32 +101,26 @@ int		main()
 			index++;
 		else if (check_line(line) == 1)
 			ft_printf("[COMMENTAIRES]\n");
-		else if (check_line(line) == 2 && index == 1)
+		else if (index == 1)
 		{
-			index++;
-			ft_printf("[Start]\n");
+			check_startend(&line, &r);
+			if (check_room(line) == 1)
+				get_rooms(&line, &r, &lst);
+			if ((check_room(line) == 0) && ((check_line(line) != 2) && (check_line(line) != 3)))
+			{
+				if (!lst)
+					exit(0);	
+				index++;
+			}
 		}
-		else if (index == 2 && check_room(line, &index) == 1)
+		else if (index == 2)
 		{
-			start = ft_strdup(line);
-			get_rooms(&line, &r, &lst);
-			index++;
+			if (r.start == NULL || r.end == NULL)
+				ft_printf("ta pas oublie qqu chose ?\n");
+			ft_printf("[%s]--[%s]\n", r.start, r.end);
+			ft_putstr("COOL");
 		}
-		else if (index == 3 && check_room(line, &index) == 1)
-		{
-			get_rooms(&line, &r, &lst);
-		}
-		else if (index == 4 && check_room(line, &index) == 1)
-		{
-			end = ft_strdup(line);
-			get_rooms(&line, &r, &lst);
-			index++;
-		}
-		else if (index == 5)
-		{
-			ft_printf("[Start = %s]\n[End = %s]\n");
-			// ft_putstr("FINISH");
-		}
+
 		ft_printf("[%d]\n", index);
 	}
 }

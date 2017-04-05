@@ -11,12 +11,14 @@ int	ft_error(int i)
 			ft_printf("[Error on input of Y/X]\n");
 		else if(i == 5)
 			ft_printf("[Invalid char '#' or 'L' for room's name]\n");
-		if (i == 3)
-			ft_printf("[Invalid Input]\n");
-		else if(i == 4)
-			ft_printf("[Not enough ants]\n");
-		// return(0);
+		if (i == 3 || i == 4)
+		{
+			if (i == 3)
+				ft_printf("[Invalid Input]\n");
+			else if(i == 4)
+				ft_printf("[Not enough ants]\n");
+			exit (0);
+		}
 	}
-		exit (0);
 	return(0);
 }
