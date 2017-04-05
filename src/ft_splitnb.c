@@ -15,6 +15,7 @@
 t_lst	*add_rooms(t_lst *lst, char *str, int y, int x)
 {
 	t_lst	*tmp;
+	//ft_printf("STR = %s\n", str);
 
 	tmp = malloc(sizeof(t_lst));
 	if (tmp)
@@ -22,56 +23,42 @@ t_lst	*add_rooms(t_lst *lst, char *str, int y, int x)
 		tmp->x = x;
 		tmp->y = y;
 		tmp->rooms = ft_strdup(str);
-		tmp->next = lst;
+		if (lst)
+			tmp->next = lst;
+		else
+			tmp->next = NULL;
 	}
 	return (tmp);
 }
 
-int		get_str(char *s, char c)
+
+int		check_room(char *s, int *index)
 {
 	int i;
-
 	i = 0;
-	if (s[0] == '#' || s[0] == 'L')
+	if (!s)
+		return (0);
+	if (check_line(s) == 2)
 	{
-		ft_printf("Nom de salle interdit\n");
+		*index += 1;
 		return(0);
 	}
-
-	while(s[i] != c)
-		i++;
-	return(i);
+	i = len_str(s);
+	if (i == 0)
+		return (0);
+	if ((count_space(s)) != 2)
+		return(ft_error(1));
+	if ((check_nb(s + i)) == 0)
+		return(ft_error(2));
+	return (1);
 }
 
-int		get_nb(char *s, char c)
-{
-	int count;
-	int i;
-
-	i = 0;
-	count = 0;
-
-	while(s[i] != '\0')
-	{
-		if (s[i] == c)
-			count++;
-		else if(ft_isdigit(s[i]) == 0 && s[i] != c)
-			return (0);
-		i++;
-	}
-	return (count);
-}
-
-
-int		ft_splitnb(char *s, char c, t_rooms *r)
+int		ft_splitnb(char *s, t_rooms *r)
 {
 	int i;
 
-	i = get_str(s,c);
-	if (!s || i == 0)
-		return (0);
-	if (get_nb(s + i,c) != 2)
-		return (0);
+	i = len_str(s);
+
 	r->room = ft_strsub(s, 0, i);
 	r->y = ft_atoi(s+i);
 	r->x = ft_atoi(s+(i + ft_len_int(r->y) + 1));

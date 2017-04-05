@@ -12,33 +12,17 @@
 
 # include "lemin.h"
 
-void	check_line(char *line, t_rooms *r, t_lst *lst)
-{
-	if (line[0] == '#')
-		check_hash(line, r, lst);
-	else if (ft_strlen(line) == 0)
-	{
-		ft_printf("ERROR\n");
-		exit (0);
-	}
-	else
-		ft_printf("##%s##\n", line);
-}
-
 int		get_ants(char *line)
 {
 	int nb;
 	int i;
 
 	i = 0;
-	get_next_line(0, &line);
 	while (line[i] != '\0')
 	{
 		if ((ft_isdigit(line[i])) == 0)
 		{
-			ft_printf("Entree invalide\n");
-			free(line);
-			exit (0);
+			return(ft_error(3));
 		}
 		i++;
 	}
@@ -46,7 +30,7 @@ int		get_ants(char *line)
 	free(line);
 	if (nb < 1)
 	{
-		ft_printf("Nombre de fourmis insuffisant\n");
+		return(ft_error(4));
 		exit (0);
 	}
 	else
