@@ -24,17 +24,6 @@ void	print_lst(t_lst *lst)
 	}
 }
 
-int		check_exist(char *s, t_lst *lst)
-{
-	while (lst)
-	{
-		if (ft_strcmp(lst->rooms, s) == 0)
-			return(0);
-		lst = lst->next;
-	}
-	return(1);
-}
-
 int		get_rooms(char **line, t_rooms *r, t_lst **lst)
 {
 	ft_splitnb(*line, r);
@@ -45,107 +34,56 @@ int		get_rooms(char **line, t_rooms *r, t_lst **lst)
 	return(1);
 }
 
-int		check_line(char *line)
+int		next_step(char *line, t_lst *lst, t_rooms r)
 {
-	if (line[0] == '\0')
-		return (0);
-	if ((line[0] && line[1]) && line[0] == '#' && line[1] != '#') 
-		return (1);
-	else if ((line[0] && line[1]) && line[0] == '#' && line[1] == '#')
+	if ((check_room(line) == 0) && 
+		((check_line(line) != 2) && (check_line(line) != 3)))
 	{
-		if (ft_strcmp(line, "##start") == 0)
-			return (2);
-		else if (ft_strcmp(line, "##end") == 0)
-			return (3);
-		else
+		if (!lst)
+			exit(0);	
+		if (r.start == NULL || r.end == NULL)
+			exit(0);
+		if (get_links(line, lst) == 1)
 			return (1);
+		else
+			exit (0);
 	}
 	return (0);
 }
 
-void	check_startend(char **line, t_rooms *r)
+int 	get_links(char *line, t_lst *lst)
 {
-	if (check_line(*line) == 2)
-	{
-		get_next_line(0, line);
-		if (check_room(*line) == 1)
-			r->start = ft_strdup(*line);
-	}
-	else if (check_line(*line) == 3)
-	{
-		get_next_line(0, line);
-		if (check_room(*line) == 1)
-			r->end = ft_strdup(*line);
-	}
-}
-
-void	check_links(char *line, t_lst *lst)
-{
-	char **link;
-
-	link = ft_strsplit(line, '-');
-		ft_printf("-->[%s]<--\n", link[0]);
-		ft_printf("-->[%s]<--\n", link[1]);
-
-	if (check_exist(link[0], lst) == 0)
-		ft_printf("-->[%s]<--\n", link[0]);
+	if (count_char(line, '-') == 1)
+		check_links(line, lst);
 	else
-		ft_printf("ERROR");
-	if (check_exist(link[1], lst) == 0)
-		ft_printf("-->[%s]<--\n", link[1]);
-	else
-		ft_printf("ERROR");
-	exit(0);
-	// if (check_exist()
+		return (0);
+	return (1);
 }
 
 int		main()
 {
-	char *line;
-	int i;
-	t_rooms r;
-	t_lst *lst;
-	int index;
-	
-	lst = NULL;
-	line = NULL;
+	t_rooms	r;
+	t_lst	*lst;
+	char	*line;
 
-	index = 0;
-	//Je recupere le nombre de fourmis
-	ft_printf("[%d]\n", index);
+	init_all(&line, &r, &lst);
 	while (get_next_line(0, &line) > 0)
 	{
-		if (index == 0 && (i = (get_ants(line)) > 0))
-			index++;
-		else if (check_line(line) == 1)
+		if (check_line(line) == 1)
 			ft_printf("[COMMENTAIRES]\n");
-		else if (index == 1)
+		else if (r.index == 0 && (r.i = (get_ants(line)) > 0))
+			r.index++;
+		else if (r.index == 1 && check_line(line) != 1)
 		{
 			check_startend(&line, &r);
 			if (check_room(line) == 1)
 				get_rooms(&line, &r, &lst);
-			if ((check_room(line) == 0) && ((check_line(line) != 2) && (check_line(line) != 3)))
-			{
-				if (!lst)
-					exit(0);	
-				index++;
-				if (r.start == NULL || r.end == NULL)
-				{
-					ft_printf("ta pas oublie qqu chose ?\n");
-					if (r.start)
-						ft_printf("[%s]\n", r.start);
-					if (r.end)
-						ft_printf("[%s]\n", r.end);
-					exit(0);
-				}
-			}
-
+			if (next_step(line, lst, r) == 1)
+				r.index++;
 		}
-		else if (index == 2)
-		{
-			check_links(line, lst);
-		}
+		else if (r.index == 2 && check_line(line) != 1)
+			get_links(line, lst);
 
-		ft_printf("[%d]\n", index);
+		ft_printf("\n[%d]\n", r.index);
 	}
 }

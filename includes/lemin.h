@@ -20,11 +20,10 @@ typedef struct	s_rooms
 	int		i;
 	int		y;
 	int		x;
+	int 	index;
 	char	*room;
 	char	*start;
 	char	*end;
-	int		getstart;
-	int		getend;
 }			t_rooms;
 
 
@@ -45,6 +44,7 @@ int		ft_splitnb(char *s, t_rooms *r);
 ** checking.c
  */
 int		check_line(char *line);
+void	init_all(char **line, t_rooms *r, t_lst *lst);
 
 int		get_ants(char *line);
 

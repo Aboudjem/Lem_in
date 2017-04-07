@@ -12,21 +12,22 @@ size_t		len_str(char *s)
 	return(i);
 }
 
-int		count_space(char *s)
+int		count_char(char *s, char c)
 {
-	int i;
-	int space;
+	int	i;
+	int count;
 
-	space = 0;
 	i = 0;
-	while(s[i] != '\0')
+	count = 0;
+	while (s[i] != '\0')
 	{
-		if (s[i] == ' ')
-			space++;
+		if (s[i] == c)
+			count++;
 		i++;
 	}
-	return(space);
+		return(count);
 }
+
 
 int		check_nb(char *s)
 {
@@ -41,4 +42,17 @@ int		check_nb(char *s)
 			return (0);
 	}
 	return (1);
+}
+
+void	init_all(char **line, t_rooms *r, t_lst *lst)
+{
+	*line = NULL;
+	lst = NULL;
+	r->i = 0;
+	r->y = 0;
+	r->x = 0;
+	r->room = NULL;
+	r->start = NULL;
+	r->end = NULL;
+	r->index = 0;
 }
