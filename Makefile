@@ -6,7 +6,7 @@
 #    By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/04/03 22:59:30 by aboudjem          #+#    #+#              #
-#    Updated: 2017/04/04 06:01:44 by aboudjem         ###   ########.fr        #
+#    Updated: 2017/04/06 23:04:21 by aboudjem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ CPPFLAGS = -I$(INC_PATH)
 LDFLAGS = -Llibft
 LDLIBS = -lft
 CC = clang
-CFLAGS = -Werror -Wall -Wextra
+CFLAGS = -Weverything #-Werror -Wall -Wextra
 
 
 SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))

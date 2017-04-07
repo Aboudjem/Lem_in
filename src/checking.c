@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 # include "lemin.h"
-
+# include <limits.h>
 int		get_ants(char *line)
 {
 	int nb;
@@ -28,11 +28,9 @@ int		get_ants(char *line)
 	}
 	nb = ft_atoi(line);
 	free(line);
-	if (nb < 1)
-	{
+	ft_putnbr(nb);
+	if (nb < 1 || nb > INT_MAX)
 		return(ft_error(4));
-		exit (0);
-	}
 	else
 		return(nb);
 }

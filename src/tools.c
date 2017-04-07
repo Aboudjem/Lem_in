@@ -1,8 +1,8 @@
 #include "lemin.h"
 
-int		len_str(char *s)
+size_t		len_str(char *s)
 {
-	int i;
+	size_t i;
 
 	i = 0;
 	if (s[0] == '#' || s[0] == 'L')

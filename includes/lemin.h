@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   lemin.h                                            :+:      :+:    :+:   */
@@ -40,9 +40,7 @@ typedef struct	s_lst
  */
 t_lst	*add_rooms(t_lst *lst, char *str, int y, int x);
 int		get_nb(char *s);
-int		len_str(char *s);
 int		ft_splitnb(char *s, t_rooms *r);
-
 /*
 ** checking.c
  */
@@ -50,12 +48,16 @@ int		check_line(char *line);
 
 int		get_ants(char *line);
 
+
 int		check_hash(char *line, t_rooms *r, t_lst *lst);
 int		check_room(char *s);
-int		len_str(char *s);
+size_t	len_str(char *s);
 int		count_space(char *s);
 int		check_nb(char *s);
 
 int	ft_error(int i);
-
+int		check_exist(char *s, t_lst *lst);
+void	check_startend(char **line, t_rooms *r);
+int		get_rooms(char **line, t_rooms *r, t_lst **lst);
+void	print_lst(t_lst *lst);
 #endif

@@ -24,11 +24,11 @@ void	print_lst(t_lst *lst)
 	}
 }
 
-int		check_exist(t_rooms *r, t_lst *lst)
+int		check_exist(char *s, t_lst *lst)
 {
 	while (lst)
 	{
-		if (ft_strcmp(lst->rooms, r->room) == 0)
+		if (ft_strcmp(lst->rooms, s) == 0)
 			return(0);
 		lst = lst->next;
 	}
@@ -38,7 +38,7 @@ int		check_exist(t_rooms *r, t_lst *lst)
 int		get_rooms(char **line, t_rooms *r, t_lst **lst)
 {
 	ft_splitnb(*line, r);
-	if (check_exist(r, *lst) == 1)
+	if (check_exist(r->room, *lst) == 1)
 		*lst = add_rooms(*lst, r->room,r->y,r->x);
 	if (*lst)
 		print_lst(*lst);
@@ -79,6 +79,26 @@ void	check_startend(char **line, t_rooms *r)
 	}
 }
 
+void	check_links(char *line, t_lst *lst)
+{
+	char **link;
+
+	link = ft_strsplit(line, '-');
+		ft_printf("-->[%s]<--\n", link[0]);
+		ft_printf("-->[%s]<--\n", link[1]);
+
+	if (check_exist(link[0], lst) == 0)
+		ft_printf("-->[%s]<--\n", link[0]);
+	else
+		ft_printf("ERROR");
+	if (check_exist(link[1], lst) == 0)
+		ft_printf("-->[%s]<--\n", link[1]);
+	else
+		ft_printf("ERROR");
+	exit(0);
+	// if (check_exist()
+}
+
 int		main()
 {
 	char *line;
@@ -87,8 +107,6 @@ int		main()
 	t_lst *lst;
 	int index;
 	
-	// char *start;
-	// char *end;
 	lst = NULL;
 	line = NULL;
 
@@ -111,14 +129,21 @@ int		main()
 				if (!lst)
 					exit(0);	
 				index++;
+				if (r.start == NULL || r.end == NULL)
+				{
+					ft_printf("ta pas oublie qqu chose ?\n");
+					if (r.start)
+						ft_printf("[%s]\n", r.start);
+					if (r.end)
+						ft_printf("[%s]\n", r.end);
+					exit(0);
+				}
 			}
+
 		}
 		else if (index == 2)
 		{
-			if (r.start == NULL || r.end == NULL)
-				ft_printf("ta pas oublie qqu chose ?\n");
-			ft_printf("[%s]--[%s]\n", r.start, r.end);
-			ft_putstr("COOL");
+			check_links(line, lst);
 		}
 
 		ft_printf("[%d]\n", index);
