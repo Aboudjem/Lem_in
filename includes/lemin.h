@@ -1,63 +1,149 @@
-	/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   lemin.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/04 05:59:47 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/04/04 06:35:12 by aboudjem         ###   ########.fr       */
+/*   Created: 2017/04/21 00:27:36 by aboudjem          #+#    #+#             */
+/*   Updated: 2017/04/21 02:03:00 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef LEMIN_H
+#ifndef LEMIN_H
 # define LEMIN_H
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
 
-# include "../libft/includes/libft.h"
+# define CHECK_BIT(var, pos)	(var & pos)
+# define ANTS	1
+# define ROOMS	2
+# define START	4
+# define END	8
+# define LINKS	16
+# define FINISH 32
+# define PRINT	64
 
-typedef struct	s_rooms
+# define BUFF_SIZE 20
+
+# define STOP      	"\033[0m"
+# define BOLD       "\033[1m"
+# define ITALIC     "\033[3m"
+# define UNDERLINE  "\033[4m"
+# define BLACK   	"\033[30m"
+# define RED     	"\033[31m"
+# define GREEN   	"\033[32m"
+# define YELLOW  	"\033[33m"
+# define BLUE   	"\033[34m"
+# define MAGENTA 	"\033[35m"
+# define CYAN    	"\033[36m"
+# define WHITE   	"\033[37m"
+
+typedef struct		s_struct
 {
-	int		i;
-	int		y;
-	int		x;
-	int 	index;
-	char	*room;
-	char	*start;
-	char	*end;
-}			t_rooms;
+	char			*s1;
+	char			*s2;
+	int				fd;
+	int				pad;
+	struct s_struct	*next;
+	struct s_struct	*prev;
+}					t_struct;
 
+typedef struct		s_links
+{
+	struct s_lst	*lst;
+	struct s_links	*next;
+}					t_links;
 
-typedef struct	s_lst
+typedef struct		s_lst
 {
 	int				x;
 	int				y;
-	char			*rooms;
+	int				value;
+	int				ant;
+	char			*name;
+	t_links			*links;
 	struct s_lst	*next;
 }					t_lst;
+
+typedef struct		s_data
+{
+	t_lst			*lst;
+	int				status;
+	int				nb_ant;
+	char			*start;
+	char			*end;
+}					t_data;
+
 /*
-** ft_splitnb.c
- */
-t_lst	*add_rooms(t_lst *lst, char *str, int y, int x);
-int		get_nb(char *s);
-int		ft_splitnb(char *s, t_rooms *r);
+** algo
+*/
+void				clean_list(t_links *tmp);
+void				push_back(t_links *dest, t_links *src, t_data *data);
+t_links				*add_list(t_links *dest, t_links *src, t_data *data);
+void				init_tree(t_lst *start, t_lst *end, t_data *data);
+int					find_way(t_data *data);
+t_links				*discover_tree(t_lst *end, t_data *data);
+t_links				*add_top_link(t_links *links, t_links *src, t_data *data);
+
 /*
-** checking.c
- */
-int		check_line(char *line);
-void	init_all(char **line, t_rooms *r, t_lst *lst);
+** parsing
+*/
 
-int		get_ants(char *line);
+void				add_rooms(t_data *data, t_lst *ptr);
+int					add_links(t_lst *ptr1, t_lst *ptr2, t_data *data);
+int					check_line(char *line);
+void				check_startend(char *line, t_data *data);
+int					check_links(char *line, t_lst *lst, t_data *data);
+int					get_ants(char *line, t_data *data);
+t_lst				*check_exist(char *s, t_lst *lst);
+int					get_links(char *line, t_data *data);
+int					next_step(char *line, t_data *data);
+int					check_room(char *s);
+int					check_name(char *s);
+int					count_space(char *s);
+int					check_nb(char *s);
+int					ft_error(int i);
+int					get_rooms(char *line, t_data *data);
 
+/*
+**	printer
+*/
+void				ft_print_way(t_data *data, t_links *tmp);
+void				ft_advance_ants(t_links *ptr);
+void				ft_color(int i, char *str);
+void				finish(t_data *data, t_links *tmp);
+void				print_map(t_data *data, char *line);
 
-int		check_hash(char *line, t_rooms *r, t_lst *lst);
-int		check_room(char *s);
-size_t	len_str(char *s);
-int		count_space(char *s);
-int		check_nb(char *s);
+/*
+** libft
+*/
+int					ft_atoi(const char *str);
+void				ft_bzero(void *s, size_t n);
+void				ft_free_tab(char **str);
+int					ft_isdigit(int c);
+int					ft_isdig_str(char *ptr);
+void				*ft_memalloc(size_t size);
+void				*ft_memset(void *b, int c, size_t len);
+void				ft_putchar(char c);
+void				ft_putnbr(int n);
+void				ft_putstr(char const *s);
+void				ft_putstr_fd(char const *s, int fd);
+char				*ft_strchr(char *s, int c);
+int					ft_strcmp(const char *s1, const char *s2);
+char				*ft_strdup(const char *s1);
+size_t				ft_strlen(const char *s);
+char				**ft_strsplit(char *s, char c);
+int					get_next_line(int const fd, char **line);
+int					tab_len(char **tab);
 
-int	ft_error(int i);
-int		check_exist(char *s, t_lst *lst);
-void	check_startend(char **line, t_rooms *r);
-int		get_rooms(char **line, t_rooms *r, t_lst **lst);
-void	print_lst(t_lst *lst);
+/*
+** tools
+*/
+int					count_char(char *s, char c);
+void				ft_exit(t_data *data);
+void				ft_free(t_data *data);
+void				ft_free_lst(t_lst *lst);
+
 #endif
