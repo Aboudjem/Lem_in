@@ -18,6 +18,11 @@ int		get_ants(char *line, t_data *data)
 	int i;
 
 	i = 0;
+	if (!(ft_strlen(line)) || ft_atoi(line) == 0)
+	{
+	if (!(data->nb_ant != 0))
+		ft_putstr_fd("ERROR\n", 2);
+		}
 	while (line[i] != '\0')
 	{
 		if ((ft_isdigit(line[i])) == 0 || i >= 10)

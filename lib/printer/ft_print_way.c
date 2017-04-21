@@ -18,7 +18,7 @@ void	ft_print_way(t_data *data, t_links *tmp)
 	int		i;
 
 	i = 0;
-	ptr = tmp;
+	ptr = tmp->next;
 	while (i < data->nb_ant)
 	{
 		i++;
@@ -31,7 +31,7 @@ void	ft_print_way(t_data *data, t_links *tmp)
 			ptr = ptr->next;
 		}
 		ft_putstr("\n");
-		ptr = tmp;
+		ptr = tmp->next;
 		ft_advance_ants(ptr);
 	}
 	finish(data, tmp);

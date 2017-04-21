@@ -28,6 +28,7 @@ int			find_way(t_data *data)
 		tmp = discover_tree(end, data);
 		ft_print_way(data, tmp);
 		clean_list(tmp);
+		exit(0);
 	}
 	else
 		ft_exit(data);
